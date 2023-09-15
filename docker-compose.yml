@@ -35,7 +35,7 @@ services:
       -  ksql_kafka_secrets:/etc/kafka/secrets      
 
   ksqldb-server:
-    image: confluentinc/ksqldb-server:0.14.0
+    image: confluentinc/ksqldb-server:latest
     hostname: ksqldb-server
     container_name: ksqldb-server
     command: ["/etc/ksqldb-server/run.sh"]
@@ -48,7 +48,7 @@ services:
 
   # docker-compose exec ksqldb-cli  ksql http://ksqldb-server:8088
   ksqldb-cli:
-    image: confluentinc/ksqldb-cli:0.14.0
+    image: confluentinc/ksqldb-cli:latest
     container_name: ksqldb-cli
     depends_on:
       - kafka
@@ -58,21 +58,21 @@ services:
     volumes:
       - ./files/ksqldb-cli:/etc/sql
   
-  schema-registry:
-    image: confluentinc/cp-schema-registry:6.0.0
-    depends_on:
-      - zookeeper
-      - kafka
-    ports:
-      - '8081:8081'
-      - '31002:31002'
-    environment:
-      SCHEMA_REGISTRY_HOST_NAME: schema-registry
-      SCHEMA_REGISTRY_KAFKASTORE_CONNECTION_URL: zookeeper:2181
-      SCHEMA_REGISTRY_JMX_HOSTNAME: "localhost"
-      SCHEMA_REGISTRY_JMX_PORT: 31002
-    volumes:
-      - ksql_schema_secrets:/etc/schema-registry/secrets
+#  schema-registry:
+#    image: confluentinc/cp-schema-registry:6.0.0
+#    depends_on:
+#      - zookeeper
+#      - kafka
+#    ports:
+#      - '8081:8081'
+#      - '31002:31002'
+#    environment:
+#      SCHEMA_REGISTRY_HOST_NAME: schema-registry
+#      SCHEMA_REGISTRY_KAFKASTORE_CONNECTION_URL: zookeeper:2181
+#      SCHEMA_REGISTRY_JMX_HOSTNAME: "localhost"
+#      SCHEMA_REGISTRY_JMX_PORT: 31002
+#    volumes:
+#      - ksql_schema_secrets:/etc/schema-registry/secrets
 
   mysql:
     image: mysql
@@ -85,12 +85,12 @@ services:
       - ./files/mysql:/docker-entrypoint-initdb.d
       - ksql_mysql:/var/lib/mysql
 
-  redis:
-    image: redis:latest
-    ports:
-      - "6379:6379"
-    volumes:
-      - ksql_redis_data:/data
+#  redis:
+#    image: redis:latest
+#    ports:
+#      - "6379:6379"
+#    volumes:
+#      - ksql_redis_data:/data
 
 volumes:
   ksql_zookeeper_data:
@@ -98,6 +98,6 @@ volumes:
   ksql_zookeeper_secrets:
   ksql_kafka_data:
   ksql_kafka_secrets:  
-  ksql_schema_secrets:
+#  ksql_schema_secrets:
   ksql_mysql:
-  ksql_redis_data:
+#  ksql_redis_data:
